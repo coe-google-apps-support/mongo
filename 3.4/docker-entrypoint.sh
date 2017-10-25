@@ -19,6 +19,7 @@ if [[ "$originalArgOne" == mongo* ]] && [ "$(id -u)" = '0' ]; then
 	chown --dereference mongodb "/proc/$$/fd/1" "/proc/$$/fd/2" || :
 	# ignore errors thanks to https://github.com/docker-library/mongo/issues/149
 
+	echo "running gosu mongodb $BASH_SOURCE $@"
 	exec gosu mongodb "$BASH_SOURCE" "$@"
 fi
 
@@ -246,4 +247,5 @@ if [ "$originalArgOne" = 'mongod' ]; then
 	unset "${!MONGO_INITDB_@}"
 fi
 
+echo "running $@"
 exec "$@"
